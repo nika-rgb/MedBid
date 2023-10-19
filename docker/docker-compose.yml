@@ -55,7 +55,7 @@ services:
       - KEYCLOAK_PASSWORD_FILE=/run/secrets/keycloak_password
       - DB_PORT=5432
       - DB_VENDOR=postgres
-      - DB_DATABASE=keycloak_db
+      - DB_DATABASE=auth_server_db
       - DB_SCHEMA=public
       - DB_USER_FILE=/run/secrets/keycloak_db_user
       - DB_PASSWORD_FILE=/run/secrets/keycloak_db_password

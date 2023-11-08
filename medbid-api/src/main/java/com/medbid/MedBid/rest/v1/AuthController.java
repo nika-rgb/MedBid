@@ -32,6 +32,8 @@ public class AuthController {
     // TODO Flow:
     // 1) After user registration id is received here
     // 2) We have profile endpoint where we aggregate data from db and keycloak
+
+    // TODO secure with the API token
     @PostMapping("/register")
     public ResponseEntity<Void> register(@RequestBody RegisterUserRequest request) {
         authOperations.register(request.getUserId());

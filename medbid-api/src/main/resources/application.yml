@@ -1,0 +1,29 @@
+server:
+  port: 8081
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${keycloak.url}/realms/${keycloak.realm}
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+
+keycloak:
+  protocol: http
+  host: localhost
+  port: 8080
+  realm: Medbid
+  url: ${keycloak.protocol}://${keycloak.host}:${keycloak.port}
+  bearer-only: true
+  redirect-uri: http://localhost:8081/api/v1/auth/redirect
+  public: true
+  token-uri: ${keycloak.url}/realms/${keycloak.realm}/protocol/openid-connect/token
+  logout-uri: ${keycloak.url}/realms/${keycloak.realm}/protocol/openid-connect/logout
+  connectTimeout: 1000
+  readTimeout: 3000
+  client:
+    id: Medbid
+    secret: zG9cCirD9pb0bQvffkqtQ9zLpQGoIUbk

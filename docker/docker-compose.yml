@@ -18,6 +18,10 @@ secrets:
   keycloak_db_password:
     file: secrets/keycloak_db_password.txt
 
+configs:
+  keycloak_realm:
+    file: secrets/freeuni-freecode.json
+
 services:
   medbid-db:
     image: postgres:15.2
@@ -41,7 +45,7 @@ services:
       start_period: 1m30s
 
   medbid-auth-server:
-    image: jboss/keycloak:16.1.1
+    image: bitnami/keycloak:22.0.5
     container_name: medbid-auth-server
     ports:
       - "8080:8080"
@@ -50,15 +54,21 @@ services:
       - keycloak_password
       - keycloak_db_user
       - keycloak_db_password
+    configs:
+      - source: keycloak_realm
+        target: /home/freecode-realm.json
     environment:
-      - KEYCLOAK_USER_FILE=/run/secrets/keycloak_user
-      - KEYCLOAK_PASSWORD_FILE=/run/secrets/keycloak_password
-      - DB_PORT=5432
-      - DB_VENDOR=postgres
-      - DB_DATABASE=auth_server_db
-      - DB_SCHEMA=public
-      - DB_USER_FILE=/run/secrets/keycloak_db_user
-      - DB_PASSWORD_FILE=/run/secrets/keycloak_db_password
-      - DB_ADDR=MEDBID-DB:5432
+      - KEYCLOAK_DATABASE_VENDOR=postgresql
+      - KEYCLOAK_DATABASE_HOST=MEDBID-DB
+      - KEYCLOAK_DATABASE_PORT=5432
+      - KEYCLOAK_DATABASE_NAME=auth_server_db
+      - KEYCLOAK_DATABASE_USER=keycloak_db_user
+      - KEYCLOAK_DATABASE_PASSWORD=keycloak_db_password
+      - KEYCLOAK_CREATE_ADMIN_USER=true
+      - KEYCLOAK_ADMIN_USER=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    volumes:
+      - ./KeycloakEventListener-1.0-SNAPSHOT-jar-with-dependencies.jar:/opt/bitnami/keycloak/providers/custom-event-listener.jar
+      - ./themes:/opt/bitnami/keycloak/themes
     depends_on:
       - medbid-db

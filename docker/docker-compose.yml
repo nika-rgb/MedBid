@@ -61,9 +61,9 @@ services:
       - KEYCLOAK_DATABASE_VENDOR=postgresql
       - KEYCLOAK_DATABASE_HOST=MEDBID-DB
       - KEYCLOAK_DATABASE_PORT=5432
-      - KEYCLOAK_DATABASE_NAME=auth_server_db
-      - KEYCLOAK_DATABASE_USER=keycloak_db_user
-      - KEYCLOAK_DATABASE_PASSWORD=keycloak_db_password
+      - KEYCLOAK_DATABASE_NAME=postgres
+      - KEYCLOAK_DATABASE_USER=postgres
+      - KEYCLOAK_DATABASE_PASSWORD=postgres
       - KEYCLOAK_CREATE_ADMIN_USER=true
       - KEYCLOAK_ADMIN_USER=admin
       - KEYCLOAK_ADMIN_PASSWORD=admin

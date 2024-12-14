@@ -14,8 +14,8 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.medbid</groupId>
-	<artifactId>MedBid</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>medBid</artifactId>
+	<version>1.0.0</version>
 	<name>MedBid</name>
 	<description>Medbid is an auction type platform for medical purposes.</description>
 	<properties>
@@ -24,5 +24,17 @@
 		<maven.compiler.target>17</maven.compiler.target>
 		<keycloak-spring-boot-starter.version>22.0.4</keycloak-spring-boot-starter.version>
 		<json.version>20230227</json.version>
+		<lombok.version>1.18.36</lombok.version>
 	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>${lombok.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 </project>

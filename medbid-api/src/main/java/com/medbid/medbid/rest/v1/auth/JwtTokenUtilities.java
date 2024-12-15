@@ -1,4 +1,4 @@
-package com.medbid.medbid.api.rest.v1.auth;
+package com.medbid.medbid.rest.v1.auth;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -35,7 +35,7 @@ public class JwtTokenUtilities {
     }
 
     private boolean isTokenExpired(Claims claims) {
-        return claims.getExpiration().before(new Date());
+        return claims.getExpiration().after(new Date());
     }
 
 
@@ -67,8 +67,7 @@ public class JwtTokenUtilities {
 
     private SecretKey getHmacKey(String key) {
         byte[] keyBytes = Decoders.BASE64.decode(key);
-        SecretKey hmacKey = Keys.hmacShaKeyFor(keyBytes);
-        return hmacKey;
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 
 

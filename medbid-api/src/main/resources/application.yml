@@ -2,5 +2,21 @@ server:
   port: 8081
 
 spring:
+  config:
+    import:
+      - classpath:secret-keys.properties
   main:
     allow-bean-definition-overriding: true
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: false
+
+jwt:
+  access-token-secret-key: ${access-token-secret-key}
+  access-token-expires-in: 240000 # 3 minutes in milliseconds
+  refresh-token-secret-key: ${refresh-token-secret-key}
+  refresh-token-expires-in: 10800000 # 3 hours in milliseconds
+
+logging:
+  level:
+    web: trace

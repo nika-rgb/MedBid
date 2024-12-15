@@ -1,4 +1,4 @@
-package com.medbid.medbid.api.rest.v1.request;
+package com.medbid.medbid.rest.v1.request;
 
 public record RefreshTokenRequest(
         String accessToken,

@@ -1,4 +1,4 @@
-package com.medbid.medbid.api.rest.v1.validation;
+package com.medbid.medbid.rest.v1.validation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

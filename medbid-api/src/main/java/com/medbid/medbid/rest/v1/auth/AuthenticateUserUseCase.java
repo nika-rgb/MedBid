@@ -1,7 +1,7 @@
-package com.medbid.medbid.api.rest.v1.auth;
+package com.medbid.medbid.rest.v1.auth;
 
-import com.medbid.medbid.api.rest.v1.request.AuthenticationRequest;
-import com.medbid.medbid.api.rest.v1.response.AuthenticationResponse;
+import com.medbid.medbid.rest.v1.request.AuthenticationRequest;
+import com.medbid.medbid.rest.v1.response.AuthenticationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,7 +21,7 @@ public class AuthenticateUserUseCase {
             new UsernamePasswordAuthenticationToken(request.id(), request.password())
         );
 
-        UserDetails userDetails = (UserDetails) authenticationResult.getDetails();
+        UserDetails userDetails = (UserDetails) authenticationResult.getPrincipal();
 
         JwtTokenUtilities.JwtToken accessToken = accessTokenUtilities.generateToken(userDetails.getUsername());
         JwtTokenUtilities.JwtToken refreshToken = refreshTokenUtilities.generateToken(userDetails.getUsername());

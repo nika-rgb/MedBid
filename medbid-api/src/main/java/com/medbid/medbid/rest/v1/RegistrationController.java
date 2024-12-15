@@ -1,10 +1,11 @@
-package com.medbid.medbid.api.rest.v1;
+package com.medbid.medbid.rest.v1;
 
-import com.medbid.medbid.api.rest.v1.request.PersonRegistrationRequest;
-import com.medbid.medbid.api.rest.v1.response.RegistrationSuccessfulResponse;
+import com.medbid.medbid.rest.v1.request.PersonRegistrationRequest;
+import com.medbid.medbid.rest.v1.response.RegistrationSuccessfulResponse;
 import com.medbid.medbid.business.person.Gender;
 import com.medbid.medbid.business.person.Person;
 import com.medbid.medbid.business.person.RegisterPersonUseCase;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping(name = "/api/v1/medbid/register")
+@RequestMapping(path = "/api/v1/medbid/register")
 @RestController
 @RequiredArgsConstructor
 public class RegistrationController {
@@ -24,8 +25,8 @@ public class RegistrationController {
      * @param request Registration request body, containing all required fields for registering a person
      * @return Registration response
      */
-    @PostMapping("person")
-    public ResponseEntity<RegistrationSuccessfulResponse> registerPerson(@RequestBody PersonRegistrationRequest request) {
+    @PostMapping("/person")
+    public ResponseEntity<RegistrationSuccessfulResponse> registerPerson(@RequestBody @Valid PersonRegistrationRequest request) {
         useCase.registerPerson(fromRegisterRequest(request));
         return ResponseEntity.ok(new RegistrationSuccessfulResponse("Person is registered successfully"));
     }

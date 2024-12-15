@@ -1,4 +1,4 @@
-package com.medbid.medbid.api.rest.v1.auth;
+package com.medbid.medbid.rest.v1.auth;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

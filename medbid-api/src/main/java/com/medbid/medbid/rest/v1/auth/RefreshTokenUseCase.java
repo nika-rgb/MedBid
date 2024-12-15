@@ -1,7 +1,7 @@
-package com.medbid.medbid.api.rest.v1.auth;
+package com.medbid.medbid.rest.v1.auth;
 
-import com.medbid.medbid.api.rest.v1.request.RefreshTokenRequest;
-import com.medbid.medbid.api.rest.v1.response.AuthenticationResponse;
+import com.medbid.medbid.rest.v1.request.RefreshTokenRequest;
+import com.medbid.medbid.rest.v1.response.AuthenticationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ public class RefreshTokenUseCase {
     private final JwtConfigurationProperties jwtConfigurationProperties;
 
     public AuthenticationResponse refreshToken(RefreshTokenRequest request) {
-        String username = accessTokenUtilities.getUsernameFromToken(request.accessToken());
+        String username = refreshTokenUtilities.getUsernameFromToken(request.refreshToken());
         if (!refreshTokenUtilities.isTokenValid(username, request.refreshToken())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Refresh token validation failed");
         }

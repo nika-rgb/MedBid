@@ -20,6 +20,6 @@ public class Person {
     private String email;
     private String phoneNumberPrefix;
     private String phoneNumber;
-    private LocalDateTime createdAt;
+    private LocalDateTime registeredAt;
     private boolean isVerified;
 }

@@ -1,6 +1,7 @@
 package com.medbid.medbid.rest.v1.auth;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -8,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
+import java.util.Optional;
 
 @Slf4j
 public class JwtTokenUtilities {
@@ -24,27 +26,33 @@ public class JwtTokenUtilities {
     }
 
     public String getUsernameFromToken(String accessToken) {
-        Claims claims = extractClaims(accessToken);
-        return claims.getSubject();
+        Optional <Claims> claims = extractClaims(accessToken);
+        return claims.isEmpty() ? null : claims.get().getSubject();
     }
 
 
-    public boolean isTokenValid(String expectedUsername, String token) {
-        Claims claims = extractClaims(token);
-        return expectedUsername.equals(claims.getSubject()) && isTokenExpired(claims);
+    public boolean isTokenValid(String token) {
+        Optional<Claims> claims = extractClaims(token);
+        return claims.isPresent() && isTokenExpired(claims.get());
     }
+
 
     private boolean isTokenExpired(Claims claims) {
         return claims.getExpiration().after(new Date());
     }
 
 
-    private Claims extractClaims(String token) {
-        return Jwts.parser()
-                .verifyWith(getHmacKey(secretKey))
-                .build()
-                .parseSignedClaims(token)
-                .getPayload();
+    private Optional<Claims> extractClaims(String token) {
+        try {
+            return Optional.of(Jwts.parser()
+                    .verifyWith(getHmacKey(secretKey))
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload());
+        } catch (ExpiredJwtException exception) {
+            log.warn("Provided token is expired");
+            return Optional.empty();
+        }
     }
 
 
@@ -71,10 +79,10 @@ public class JwtTokenUtilities {
     }
 
 
-    public record JwtToken(
-            String token,
-            long expiresIn
-    ) {
-    }
+public record JwtToken(
+        String token,
+        long expiresIn
+) {
+}
 
 }

@@ -1,5 +1,6 @@
 server:
   port: 8081
+  shutdown: graceful
 
 spring:
   config:
@@ -10,13 +11,24 @@ spring:
   jackson:
     deserialization:
       fail-on-unknown-properties: false
+    serialization:
+      write-dates-as-timestamps: false
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+    defer-datasource-initialization: true
+  lifecycle:
+    timeout-per-shutdown-phase: 1m
+  datasource:
+    url: jdbc:h2:mem:medbid
+    username: sa
+    hikari:
+      minimum-idle: 1
+    driver-class-name: org.h2.Driver
 
 jwt:
   access-token-secret-key: ${access-token-secret-key}
   access-token-expires-in: 240000 # 3 minutes in milliseconds
   refresh-token-secret-key: ${refresh-token-secret-key}
   refresh-token-expires-in: 10800000 # 3 hours in milliseconds
-
-logging:
-  level:
-    web: trace

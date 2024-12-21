@@ -22,15 +22,12 @@ public class LoginController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(@RequestBody @Valid AuthenticationRequest request) {
-        return ResponseEntity.ok(authenticateUserUseCase.authenticationResponse(request));
+        return ResponseEntity.ok(authenticateUserUseCase.authenticate(request));
     }
 
     @PostMapping("/refresh")
     public ResponseEntity<AuthenticationResponse> refreshToken(@RequestBody @Valid RefreshTokenRequest request) {
         return ResponseEntity.ok(refreshTokenUseCase.refreshToken(request));
     }
-
-
-    // Implement filter and finalize security config
 
 }

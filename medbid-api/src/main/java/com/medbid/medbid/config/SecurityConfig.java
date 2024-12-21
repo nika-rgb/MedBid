@@ -1,6 +1,7 @@
 package com.medbid.medbid.config;
 
-import com.medbid.medbid.business.person.PersonRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.medbid.medbid.business.user.UserRepository;
 import com.medbid.medbid.rest.v1.auth.AuthenticationFilter;
 import com.medbid.medbid.rest.v1.auth.JwtConfigurationProperties;
 import com.medbid.medbid.rest.v1.auth.JwtTokenUtilities;
@@ -27,8 +28,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final PersonRepository personRepository;
+    private final UserRepository userRepository;
     private final JwtConfigurationProperties properties;
+    private final ObjectMapper objectMapper;
 
 
     @Bean
@@ -42,7 +44,7 @@ public class SecurityConfig {
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
-                .addFilterBefore(authenticationFilter(null, null), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .build();
     }
@@ -61,7 +63,7 @@ public class SecurityConfig {
     @Bean
     UserDetailsService medbidUserDetailsService() {
         // PersonRepository will be fetched from context
-        return new MedbidUserDetailsService(personRepository);
+        return new MedbidUserDetailsService(userRepository);
     }
 
     @Bean
@@ -77,8 +79,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    AuthenticationFilter  authenticationFilter(JwtTokenUtilities accessTokenUtilities, UserDetailsService medbidUserDetailsService) {
-        return new AuthenticationFilter(accessTokenUtilities(), medbidUserDetailsService());
+    AuthenticationFilter  authenticationFilter() {
+        return new AuthenticationFilter(accessTokenUtilities(), medbidUserDetailsService(), objectMapper);
     }
 
 }

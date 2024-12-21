@@ -16,9 +16,9 @@ public class AuthenticateUserUseCase {
     private final JwtTokenUtilities accessTokenUtilities;
     private final JwtTokenUtilities refreshTokenUtilities;
 
-    public AuthenticationResponse authenticationResponse(AuthenticationRequest request) {
+    public AuthenticationResponse authenticate(AuthenticationRequest request) {
         Authentication authenticationResult = authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(request.id(), request.password())
+            new UsernamePasswordAuthenticationToken(request.idNumber(), request.password())
         );
 
         UserDetails userDetails = (UserDetails) authenticationResult.getPrincipal();

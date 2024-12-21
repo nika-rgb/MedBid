@@ -15,10 +15,11 @@ public class RefreshTokenUseCase {
     private final JwtConfigurationProperties jwtConfigurationProperties;
 
     public AuthenticationResponse refreshToken(RefreshTokenRequest request) {
-        String username = refreshTokenUtilities.getUsernameFromToken(request.refreshToken());
-        if (!refreshTokenUtilities.isTokenValid(username, request.refreshToken())) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Refresh token validation failed");
+        if (!refreshTokenUtilities.isTokenValid(request.refreshToken())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Failed to extend token lifecycle");
         }
+
+        String username = refreshTokenUtilities.getUsernameFromToken(request.refreshToken());
 
         JwtTokenUtilities.JwtToken newAccessToken = accessTokenUtilities.generateToken(username);
         return new AuthenticationResponse(newAccessToken.token(), newAccessToken.expiresIn(), request.refreshToken(), jwtConfigurationProperties.getRefreshTokenExpiresIn());

@@ -44,7 +44,7 @@ public class RegisterPersonUseCase {
         grantedAuthority.setAuthorityType(AuthorityType.ROLE);
         grantedAuthority.setGrantedAuthority(
                 roleRepository.getRoleByUserRole(UserRole.USER)
-                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to retrieve roles"))
+                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to retrieve required roles"))
         );
 
         return List.of(grantedAuthority);
@@ -65,6 +65,7 @@ public class RegisterPersonUseCase {
     private PersonEntity buildPersonEntity(Person person) {
         PersonEntity personEntity = new PersonEntity();
 
+        personEntity.setIdNumber(person.getIdNumber());
         personEntity.setFirstName(person.getFirstName());
         personEntity.setLastName(person.getLastName());
         personEntity.setBirthDate(person.getBirthDate());

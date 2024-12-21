@@ -19,6 +19,9 @@ public class PersonEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(name = "id_number", nullable = false, length = 60, updatable = false)
+    private String idNumber;
+
     @Column(name = "first_name", nullable = false, length = 50)
     private String firstName;
 

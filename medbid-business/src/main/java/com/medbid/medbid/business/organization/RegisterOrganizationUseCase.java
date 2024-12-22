@@ -22,7 +22,7 @@ public class RegisterOrganizationUseCase {
 
     @Transactional
     public void registerOrganization(Organization organization) {
-        if (organizationRepository.existsByRegistrationNumber(organization.getRegistrationNumber())) {
+        if (userRepository.existsByIdNumber(organization.getRegistrationNumber())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Organization is already created please try to login");
         }
 
